@@ -1,10 +1,6 @@
-import QtQuick 2.8
-import QtQuick.Controls 2.8
-import QtQuick.Controls 1.4 as Q1
-import QtQuick.Controls.Styles 1.4
-import SddmComponents 2.0
-import QtGraphicalEffects 1.0
-import "."
+import QtQuick //2.8
+import QtQuick.Controls /*2.8*/ as Controls
+import SddmComponents
 
 Rectangle {
     id : container
@@ -12,7 +8,7 @@ Rectangle {
     LayoutMirroring.childrenInherit : true
     property int sessionIndex : session.index
 
-    TextConstants {
+     TextConstants {
         id : textConstants
     }
 
@@ -34,7 +30,7 @@ Rectangle {
             errorMessage.bold = true
         }
     }
-    Background {
+    Image {
         anchors.fill : parent
         source : config.background
         fillMode : Image.Stretch
@@ -60,7 +56,6 @@ Rectangle {
             source : "assets/users.png"
             height: 190
             width: 190
-
         }
 
 
@@ -72,7 +67,7 @@ Rectangle {
             Row {
                 spacing: 4
 
-                TextField {
+                Controls.TextField {
                     id : name
                     font.family : basefont.name
                     width : 320
@@ -97,7 +92,7 @@ Rectangle {
             Row {
                 spacing : 4
 
-                TextField {
+                Controls.TextField {
                     id : password
                     anchors.verticalCenter : parent.verticalCenter
                     font.pointSize : 10
@@ -184,33 +179,35 @@ Rectangle {
         spacing : 0
 
 
-        Q1.Button {
+        Controls.Button {
             id : shutdownButton
             height : 28
             width : 38
-            style : ButtonStyle {
-                background : Image {
-                    source : control.hovered
-                        ? "assets/shutdown_pressed.png"
-                        : "assets/shutdown.png"
+            hoverEnabled: true
+            contentItem: Image {
+                    anchors.fill: parent
+                    source: shutdownButton.hovered
+                            ? "assets/shutdown_pressed.png"
+                            : "assets/shutdown.png"
+                    fillMode: Image.PreserveAspectFit
                 }
-            }
             onClicked : sddm.powerOff()
             KeyNavigation.backtab : loginButton
             KeyNavigation.tab : rebootButton
         }
 
-        Q1.Button {
+        Controls.Button {
             id : rebootButton
             height : 28
             width : 20
-            style : ButtonStyle {
-                background : Image {
-                    source : control.hovered
-                        ? "assets/rebootpressed.png"
-                        : "assets/reboot.png"
+            contentItem: Image {
+                    anchors.fill: parent
+                    source: rebootButton.hovered
+                            ? "assets/rebootpressed.png"
+                            : "assets/reboot.png"
+                    fillMode: Image.PreserveAspectFit
                 }
-            }
+            hoverEnabled: true
             onClicked : sddm.reboot()
             KeyNavigation.backtab : shutdownButton
             KeyNavigation.tab : name
